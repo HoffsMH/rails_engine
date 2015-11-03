@@ -20,8 +20,8 @@ gem 'puma'
 
 group :development, :test do
   gem 'pry-rails'
-  gem 'ruby-growl'
   gem 'bullet'
+  gem 'ruby-growl'
 end
 
 group :development do
