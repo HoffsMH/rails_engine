@@ -1,6 +1,4 @@
 class Api::V1::MerchantsController < Api::V1::BaseApiController
-
-  respond_to :json
   def index
     respond_with object_type.all
   end
