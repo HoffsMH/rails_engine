@@ -4,8 +4,7 @@ class Api::V1::InvoicesController < Api::V1::BaseApiController
   end
 
   def items
-    binding.pry
-    respond_with Item.where(invoice_params)
+    respond_with Item.joins(:invoice_items).where(invoice_items: invoice_params)
   end
 
   def invoice_items
