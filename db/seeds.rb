@@ -12,27 +12,17 @@ def load_csv(file_path, model_type)
   args = {:headers => true,
               :header_converters => :symbol,
               :converters => :all}
+  count = 0
 
   CSV.foreach(file_path, args) do |row|
-    binding.pry
     record = model_type.new()
     row.headers.each_with_index do |header, index|
       if header != :id
-        record_update
+        record.update(header => row[index])
       end
-
     end
-  #
-    #
-    # # obj = MyObject.new({ :col1 => col1, :col2  => col2 })
-    # # obj.save
-    # #
-    # # count += 1
-    # # print '.' if (count % 10) == 0
-    # puts id
-    # puts name
-    # puts created_at
-    # puts updated_at
+    count += 1
+    print '.' if (count % 10) == 0
   end
   puts "Successfully loaded #{count} records into database!"
 end
