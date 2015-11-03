@@ -32,7 +32,7 @@ Rails.application.routes.draw do
       basic_routes("items")
       resources :items, except: [:new, :edit, :update, :create], defaults: {format: 'json'} do
         get '/invoice_items', to: 'items#invoice_items'
-        get '/merchant', to: 'invoice_items#merchant'
+        get '/merchant', to: 'items#merchant'
       end
 
     end
