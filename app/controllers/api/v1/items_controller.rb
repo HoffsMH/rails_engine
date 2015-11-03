@@ -4,15 +4,19 @@ class Api::V1::ItemsController < Api::V1::BaseApiController
   end
 
   def invoice_items
-    respond_with Item.find_by(id: item_params[:item_id]).invoice_items
+    respond_with InvoiceItem.joins(:item).where(items: {id: item_id})
   end
 
   def merchant
-    respond_with Item.find_by(id: item_params[:item_id]).merchant
+    respond_with Merchant.joins(:items).where(items: {id: item_id})
   end
 
   private
   def item_params
     params.permit(:item_id)
+  end
+
+  def item_id
+    item_params[:item_id]
   end
 end
