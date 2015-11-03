@@ -4,7 +4,11 @@ class Api::V1::CustomersController < Api::V1::BaseApiController
   end
 
   def invoices
-    respond_to Customer.find_by(id: customer_params[:customer_id]).invoices
+    respond_with Customer.find_by(id: customer_params[:customer_id]).invoices
+  end
+
+  def transactions
+    respond_with Customer.find_by(id: customer_params[:customer_id]).transactions
   end
 
   private
