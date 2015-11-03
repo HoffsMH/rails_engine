@@ -16,7 +16,11 @@ class Api::V1::InvoicesController < Api::V1::BaseApiController
   end
 
   def customer
-    respond_with Customer.find_by(invoice_params)
+    respond_with Invoice.find_by(id: invoice_params[:invoice_id]).customer
+  end
+
+  def merchant
+    respond_with Invoice.find_by(id: invoice_params[:invoice_id]).merchant
   end
 
   private
