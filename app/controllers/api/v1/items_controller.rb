@@ -1,6 +1,6 @@
 class Api::V1::ItemsController < Api::V1::BaseApiController
   def object_type
-    InvoiceItem
+    Item
   end
 
   def invoice
@@ -12,7 +12,7 @@ class Api::V1::ItemsController < Api::V1::BaseApiController
   end
 
   private
-  def invoice_items_params
-    params.permit(:invoice_item_id)
+  def items_params
+    params.permit(:item_id)
   end
 end
