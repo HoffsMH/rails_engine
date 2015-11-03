@@ -24,7 +24,7 @@ Rails.application.routes.draw do
       end
 
       basic_routes("invoice_items")
-      resources :invoices, except: [:new, :edit, :update, :create], defaults: {format: 'json'} do
+      resources :invoice_items, except: [:new, :edit, :update, :create], defaults: {format: 'json'} do
         get '/invoice', to: 'invoice_items#invoice'
         get '/item', to: 'invoice_items#item'
       end
