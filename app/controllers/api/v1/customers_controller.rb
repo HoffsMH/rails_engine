@@ -1,10 +1,10 @@
 class Api::V1::CustomersController < Api::V1::BaseApiController
   def object_type
-    Transaction
+    Customer
   end
 
   private
-  def transaction_params
-    params.permit(:transaction_id)
+  def customer_params
+    params.permit(:customer_id)
   end
 end
