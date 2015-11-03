@@ -35,6 +35,12 @@ Rails.application.routes.draw do
         get '/merchant', to: 'items#merchant'
       end
 
+
+      basic_routes("transactions")
+      resources :transactions, except: [:new, :edit, :update, :create], defaults: {format: 'json'} do
+        get '/invoice', to: 'transactions#invoice'
+      end
+
     end
   end
   # The priority is based upon order of creation: first created -> highest priority.
