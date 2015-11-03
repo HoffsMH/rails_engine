@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       get '/merchants/random', to: 'merchants#random', defaults: {format: 'json'}
       resources :merchants, except: [:new, :edit, :update, :create], defaults: {format: 'json'} do
         get '/items', to: 'merchants#items'
+        get '/invoices', to: 'merchants#invoices'
       end
 
     end
