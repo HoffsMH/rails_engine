@@ -20,6 +20,7 @@ gem 'responders'
 
 
 group :development, :test do
+  gem 'factory_girl'
   gem 'rspec-rails'
   gem 'simplecov'
   gem 'pry-rails'
