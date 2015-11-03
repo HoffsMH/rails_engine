@@ -29,3 +29,7 @@ end
 merchants_path  = "db/data/merchants.csv"
 model_type = Merchant
 load_csv(merchants_path, model_type)
+
+customers_path  = "db/data/customers.csv"
+model_type = Customer
+load_csv(customers_path, model_type)
