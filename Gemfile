@@ -20,6 +20,7 @@ gem 'responders'
 
 
 group :development, :test do
+  gem 'simplecov'
   gem 'pry-rails'
   gem 'bullet'
   gem 'ruby-growl'
