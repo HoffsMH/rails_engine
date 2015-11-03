@@ -14,14 +14,14 @@
     # with time if we user serializers
 
 def test_basic_endpoints(model_type=nil)
-  describe "#index action" do
+  describe "#index action for #{model_type}" do
     it "exists" do
       get :index, format: :json
 
       expect(response.status).to eq(200)
     end
-        it "gets an index of all items" do
-      merchant = Merchant.create(name: "some_merchant_name")
+    it "gets an index of all #{model_type}s" do
+      obj = create(model_type)
       Item.create(name: "some_item_name", merchant_id: merchant.id)
       get :index, format: :json
 
