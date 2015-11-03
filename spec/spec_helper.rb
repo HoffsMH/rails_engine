@@ -1,5 +1,6 @@
 require 'simplecov'
 require 'factory_girl_rails'
+require 'support/factory_girl'
 SimpleCov.start 'rails'
 
 RSpec.configure do |config|

@@ -9,7 +9,9 @@ RSpec.describe Api::V1::ItemsController, type: :controller do
     end
 
     it "gets an index of all items" do
+      binding.pry
       merchant = Merchant.create(name: "some_merchant_name")
+
       Item.create(name: "some_item_name", merchant_id: merchant.id)
       get :index, format: :json
 
