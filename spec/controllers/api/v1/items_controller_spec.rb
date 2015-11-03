@@ -39,12 +39,13 @@ RSpec.describe Api::V1::ItemsController, type: :controller do
 
     it "shows information for the item" do
       merchant = Merchant.create(name: "some_merchant_name")
-      item = Item.create(name: "some_item_name", merchant_id: merchant.id)
+      item = Item.create(name: "some_item_name", merchant_id: merchant.id, description: "blah blah")
       get :show, format: :json, id: item.id
 
       json_response = JSON.parse(response.body)
 
-      expect(json_response.first).to contain("some_item_name")
+      expect(json_response["name"]).to eq(item.name)
+      expect(json_response["description"]).to eq(item.description)
     end
   end
 
