@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+
+  namespace :api do
+    namespace :v1 do
+      resources :merchants, except: [:new, :edit, :update, :create], defaults: {format: 'json'} do
+        resources :items, except: [:new, :edit, :update, :create]
+      end
+    end
+  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
