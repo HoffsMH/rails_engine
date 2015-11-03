@@ -33,3 +33,7 @@ load_csv(merchants_path, model_type)
 customers_path  = "db/data/customers.csv"
 model_type = Customer
 load_csv(customers_path, model_type)
+
+items_path  = "db/data/items.csv"
+model_type = Item
+load_csv(items_path, model_type)
