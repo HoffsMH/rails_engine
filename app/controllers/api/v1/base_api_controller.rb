@@ -16,6 +16,10 @@ class Api::V1::BaseApiController < ApplicationController
       respond_with  object_type.where(find_params)
     end
 
+    def random
+      respond_with  object_type.all.sample
+    end
+
     private
     def find_params
       object_type_params = object_type.column_names.map {|name| name.to_sym}
