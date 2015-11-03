@@ -3,7 +3,9 @@ class Api::V1::InvoiceItemsController < Api::V1::BaseApiController
     InvoiceItem
   end
 
-
+  def invoice
+    respond_with InvoiceItem.find_by(id: invoice_items_params[:invoice_item_id]).invoice
+  end
 
   private
   def invoice_items_params
