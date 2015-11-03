@@ -65,6 +65,5 @@ def test_basic_endpoints(model_type=nil)
       expect(response.status).to eq(404)
       expect(response.body).to include("not found")
     end
-
   end
 end

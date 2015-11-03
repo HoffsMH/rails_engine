@@ -5,15 +5,21 @@ class Api::V1::BaseApiController < ApplicationController
     end
 
     def show
-      respond_with object_type.find_by(id: show_params)
+      object = object_type.find_by(id: show_params)
+
+      object ? respond_with(object) : not_found
     end
 
     def find
-      respond_with  object_type.find_by(find_params)
+      object = object_type.find_by(find_params)
+
+      object ? respond_with(object) : not_found
     end
 
     def find_all
-      respond_with  object_type.where(find_params)
+      objects = object_type.where(find_params)
+
+      objects ? respond_with(objects) : not_found
     end
 
     def random
@@ -28,5 +34,9 @@ class Api::V1::BaseApiController < ApplicationController
 
     def show_params
       params.require(:id)
+    end
+
+    def not_found
+      render plain: "#{object_type} not found", status: 404
     end
 end
