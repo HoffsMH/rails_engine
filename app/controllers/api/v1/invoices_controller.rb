@@ -15,6 +15,10 @@ class Api::V1::InvoicesController < Api::V1::BaseApiController
     respond_with Transaction.where(invoice_params)
   end
 
+  def customer
+    respond_with Customer.find_by(invoice_params)
+  end
+
   private
   def invoice_params
     params.permit(:invoice_id)
