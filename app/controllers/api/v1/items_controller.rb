@@ -12,7 +12,7 @@ class Api::V1::ItemsController < Api::V1::BaseApiController
   end
 
   private
-  def items_params
+  def item_params
     params.permit(:item_id)
   end
 end
