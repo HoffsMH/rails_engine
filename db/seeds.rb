@@ -13,7 +13,6 @@ def load_csv(file_path, model_type)
               :header_converters => :symbol,
               :converters => :all}
   count = 0
-
   CSV.foreach(file_path, args) do |row|
     record = model_type.new()
     row.headers.each_with_index do |header, index|
