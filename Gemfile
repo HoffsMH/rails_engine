@@ -20,6 +20,7 @@ gem 'responders'
 
 
 group :development, :test do
+  gem 'rspec-rails'
   gem 'simplecov'
   gem 'pry-rails'
   gem 'bullet'
