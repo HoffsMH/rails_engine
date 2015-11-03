@@ -14,3 +14,7 @@ RSpec.configure do |config|
 
 
 end
+
+def json
+  JSON.parse(response.body)
+end

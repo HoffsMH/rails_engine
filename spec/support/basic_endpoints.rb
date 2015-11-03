@@ -21,14 +21,16 @@ def test_basic_endpoints(model_type=nil)
       expect(response.status).to eq(200)
     end
     it "gets an index of all #{model_type}s" do
-      obj = create(model_type)
-      Item.create(name: "some_item_name", merchant_id: merchant.id)
+      number_of_objects = Random.rand(1..30)
+      objects = []
+      number_of_objects.times do |index|
+        objects[index] = create(model_type)
+      end
+
       get :index, format: :json
 
-      json_response = JSON.parse(response.body)
-      number_of_items = Item.all.count
 
-      expect(json_response.count).to eq(number_of_items)
+      expect(json.count).to eq(number_of_items)
     end
   end
 
