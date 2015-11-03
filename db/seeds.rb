@@ -10,30 +10,36 @@ require 'csv'
 
 def load_csv(file_path, model_type)
   args = {:headers => true,
-              :header_converters => :symbol,
-              :converters => :all}
-  count = 0
-  CSV.foreach(file_path, args) do |row|
-    record = model_type.new()
-    row.headers.each_with_index do |header, index|
-      if header != :id
-        record.update(header => row[index])
+          :header_converters => :symbol,
+          :converters => :all}
+    count = 0
+    model_type.transaction do
+      CSV.foreach(file_path, args) do |row|
+        record = model_type.new()
+        row.headers.each_with_index do |header, index|
+          if header != :id
+            record.update(header => row[index])
+          end
+        end
+        count += 1
+        print '.' if (count % 10) == 0
       end
     end
-    count += 1
-    print '.' if (count % 10) == 0
+    puts "Successfully loaded #{count} #{model_type.to_s}s into database!"
   end
-  puts "Successfully loaded #{count} records into database!"
-end
 
-merchants_path  = "db/data/merchants.csv"
-model_type = Merchant
-load_csv(merchants_path, model_type)
+  merchants_path  = "db/data/merchants.csv"
+  model_type = Merchant
+  load_csv(merchants_path, model_type)
 
-customers_path  = "db/data/customers.csv"
-model_type = Customer
-load_csv(customers_path, model_type)
+  customers_path  = "db/data/customers.csv"
+  model_type = Customer
+  load_csv(customers_path, model_type)
 
-items_path  = "db/data/items.csv"
-model_type = Item
-load_csv(items_path, model_type)
+  items_path  = "db/data/items.csv"
+  model_type = Item
+  load_csv(items_path, model_type)
+
+  invoices_path  = "db/data/invoices.csv"
+  model_type = Invoice
+  load_csv(invoices_path, model_type)
