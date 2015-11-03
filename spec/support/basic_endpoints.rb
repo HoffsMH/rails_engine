@@ -13,6 +13,16 @@
     # these test will change from endpoint to endpoint and
     # with time if we user serializers
 
+def random_objects_with_max(max, model_type)
+
+  number_of_objects = Random.rand(1..max)
+  objects = []
+  number_of_objects.times do |index|
+    objects[index] = create(model_type)
+  end
+  objects
+end
+
 def test_basic_endpoints(model_type=nil)
   describe "#index action for #{model_type}" do
     it "exists" do
@@ -20,46 +30,41 @@ def test_basic_endpoints(model_type=nil)
 
       expect(response.status).to eq(200)
     end
+
     it "gets an index of all #{model_type}s" do
-      number_of_objects = Random.rand(1..30)
-      objects = []
-      number_of_objects.times do |index|
-        objects[index] = create(model_type)
-      end
+      objects = random_objects_with_max(30, model_type)
 
       get :index, format: :json
 
-
-      expect(json.count).to eq(number_of_items)
+      expect(json.count).to eq(objects.count)
     end
   end
 
-  context "#show action" do
-    it "gets an item" do
-      get :show, format: :json, id: 1
+  context "#show action for #{model_type}" do
+    it "gets an #{model_type}" do
+      objects = random_objects_with_max(30, model_type)
+
+      get :show, format: :json, id: objects.sample.id
 
       expect(response.status).to eq(200)
     end
 
-    it "displays the item" do
-      merchant = Merchant.create(name: "some_merchant_name")
-      item = Item.create(name: "some_item_name", merchant_id: merchant.id)
-      get :show, format: :json, id: item.id
+    it "displays only one item" do
+      objects = random_objects_with_max(30, model_type)
 
-      json_response = JSON.parse(response.body)
+      get :show, format: :json, id: objects.sample.id
 
-      expect(json_response.count).to eq(Item.column_names.count)
+      expect(json.count).to eq(model_type.column_names.count)
     end
 
-    it "shows information for the item" do
-      merchant = Merchant.create(name: "some_merchant_name")
-      item = Item.create(name: "some_item_name", merchant_id: merchant.id, description: "blah blah")
-      get :show, format: :json, id: item.id
+    it "returns 404 when the #{model_type} is not found" do
+      objects = random_objects_with_max(30, model_type)
 
-      json_response = JSON.parse(response.body)
+      get :show, format: :json, id: 9999999
 
-      expect(json_response["name"]).to eq(item.name)
-      expect(json_response["description"]).to eq(item.description)
+      expect(response.status).to eq(404)
+      expect(response.body).to include("not found")
     end
+
   end
 end
