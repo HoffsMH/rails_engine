@@ -47,3 +47,7 @@ load_csv(invoices_path, model_type)
 transactions_path  = "db/data/transactions.csv"
 model_type = Transaction
 load_csv(transactions_path, model_type)
+
+invoice_items_path  = "db/data/invoice_items.csv"
+model_type = InvoiceItem
+load_csv(invoice_items_path, model_type)
