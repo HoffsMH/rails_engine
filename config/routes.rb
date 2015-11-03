@@ -1,13 +1,26 @@
+def basic_routes(type)
+  get "/#{type}/find", to: "#{type}#find", defaults: {format: 'json'}
+  get "/#{type}/find_all", to: "#{type}#find_all", defaults: {format: 'json'}
+  get "/#{type}/random", to: "#{type}#random", defaults: {format: 'json'}
+end
+
 Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      get '/merchants/find', to: 'merchants#find', defaults: {format: 'json'}
-      get '/merchants/find_all', to: 'merchants#find_all', defaults: {format: 'json'}
-      get '/merchants/random', to: 'merchants#random', defaults: {format: 'json'}
+      basic_routes("merchants")
       resources :merchants, except: [:new, :edit, :update, :create], defaults: {format: 'json'} do
         get '/items', to: 'merchants#items'
         get '/invoices', to: 'merchants#invoices'
+      end
+
+      basic_routes("invoices")
+      resources :invoices, except: [:new, :edit, :update, :create], defaults: {format: 'json'} do
+        get '/transactions', to: 'invoices#transactions'
+        get '/invoice_items', to: 'invoices#invoice_items'
+        get '/items', to: 'invoices#items'
+        get '/customer', to: 'invoices#customer'
+        get '/merchant', to: 'invoices#merchant'
       end
 
     end
