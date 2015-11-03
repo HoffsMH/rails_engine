@@ -8,7 +8,8 @@ class Api::V1::CustomersController < Api::V1::BaseApiController
   end
 
   def transactions
-    respond_with Customer.find_by(id: customer_params[:customer_id]).transactions
+    # respond_with Customer.find_by(id: customer_params[:customer_id]).transactions
+    respond_with Transaction.joins(:invoice).where(invoices:{customer_id: customer_params[:customer_id]})
   end
 
   private

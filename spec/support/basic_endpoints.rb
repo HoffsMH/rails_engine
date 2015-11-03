@@ -23,6 +23,12 @@ def random_objects_with_max(max, model_type)
   objects
 end
 
+def random_attribute(object)
+  key = object.attribute_names.sample.to_sym
+  value = object.attributes[key.to_s]
+  {key => value}
+end
+
 def test_basic_endpoints(model_type=nil)
   describe "#index action for #{model_type}" do
     it "exists" do
@@ -49,7 +55,38 @@ def test_basic_endpoints(model_type=nil)
       expect(response.status).to eq(200)
     end
 
-    it "displays only one item" do
+    it "displays only one #{model_type}" do
+      objects = random_objects_with_max(30, model_type)
+
+      get :show, format: :json, id: objects.sample.id
+
+      expect(json.count).to eq(model_type.column_names.count)
+    end
+
+    it "returns 404 when the #{model_type} is not found" do
+      objects = random_objects_with_max(30, model_type)
+
+      get :show, format: :json, id: 9999999
+
+      expect(response.status).to eq(404)
+      expect(response.body).to include("not found")
+    end
+  end
+
+  context "#find action for #{model_type}" do
+    it "finds an #{model_type}" do
+      objects = random_objects_with_max(30, model_type)
+
+      get :find, format: :json, id: objects.sample.id
+
+      expect(response.status).to eq(200)
+      binding.pry
+      get :find, format: :json
+
+      expect(response.status).to eq(200)
+    end
+
+    it "displays only one #{model_type}" do
       objects = random_objects_with_max(30, model_type)
 
       get :show, format: :json, id: objects.sample.id
