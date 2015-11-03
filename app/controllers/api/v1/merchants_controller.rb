@@ -7,6 +7,10 @@ class Api::V1::MerchantsController < Api::V1::BaseApiController
     respond_with Item.where(merchant_params)
   end
 
+  def invoices
+    respond_with Invoice.where(merchant_params)
+  end
+
   private
   def merchant_params
     params.permit(:merchant_id)
