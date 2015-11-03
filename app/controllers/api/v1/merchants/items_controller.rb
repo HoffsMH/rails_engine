@@ -1,5 +1,14 @@
 class Api::V1::Merchants::ItemsController < ApplicationController
+  def object_type
+    Item
+  end
+
   def index
-    render text: "we are in the items controller"
+    binding.pry
+
+  end
+  private
+  def merchant_params
+    params.permit()
   end
 end
