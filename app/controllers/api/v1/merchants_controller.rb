@@ -9,6 +9,7 @@ class Api::V1::MerchantsController < ApplicationController
   end
 
   def find
+
   end
   private
   def merchant_params

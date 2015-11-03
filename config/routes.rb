@@ -2,9 +2,11 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      get '/merchants/find', to: 'merchants#find', defaults: {format: 'json'}
       resources :merchants, except: [:new, :edit, :update, :create], defaults: {format: 'json'} do
         get '/items', to: 'merchants/items#index'
       end
+
     end
   end
   # The priority is based upon order of creation: first created -> highest priority.
