@@ -1,5 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe Merchant, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  context "all merchants" do
+    describe "#most_revenue" do
+      it "returns the top x merchant ranked by total revenue" do
+        100.times do
+          create(:merchant)
+        end
+      end
+    end
+  end
 end
