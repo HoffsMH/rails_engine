@@ -4,11 +4,14 @@ class Api::V1::InvoiceItemsController < Api::V1::BaseApiController
   end
 
   def invoice
-    respond_with Invoice.joins(:invoice_items).find_by(invoice_items: {id: invoice_item_id})
+    invoice = Invoice.joins(:invoice_items).find_by(invoice_items: {id: invoice_item_id})
+    invoice ? respond_with(invoice) : not_found
+  end
   end
 
   def item
-    respond_with Item.joins(:invoice_items).find_by(invoice_items: {id: invoice_item_id})
+    item = Item.joins(:invoice_items).find_by(invoice_items: {id: invoice_item_id})
+    item ? respond_with(item) : not_found
   end
 
   private
