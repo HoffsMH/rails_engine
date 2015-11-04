@@ -18,8 +18,12 @@ def load_csv(file_path, model_type)
       record = model_type.new()
       row.headers.each_with_index do |header, index|
         if header == :id || header == :credit_card_expiration_date
-          record.update(header => row[index])
+          #do nothing
+        elsif header == :unit_price
+          record.update(header => (row[index] / 100.0))
         else
+          record.update(header => row[index])
+        end
       end
       count += 1
       print '.' if (count % 10) == 0
