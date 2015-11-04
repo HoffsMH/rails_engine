@@ -23,7 +23,7 @@ RSpec.describe Api::V1::CustomersController, type: :controller do
         create(:invoice, customer_id: customer.id)
         invoice = create(:invoice, customer_id: customer.id)
 
-        get :invoices, format: :json, item_id: 9929992
+        get :invoices, format: :json, customer_id: 9929992
 
         expect(response.body).to include("not found")
         expect(response.status).to eq(404)

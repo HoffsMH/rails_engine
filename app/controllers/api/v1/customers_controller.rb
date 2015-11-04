@@ -4,11 +4,13 @@ class Api::V1::CustomersController < Api::V1::BaseApiController
   end
 
   def invoices
-    respond_with Invoice.where(customer_id: customer_id)
+    invoices = Invoice.where(customer_id: customer_id)
+    !invoices.empty? ? respond_with(invoices) : not_found
   end
 
   def transactions
-    respond_with Transaction.joins(:invoice).where(invoices:{customer_id: customer_id})
+    transactions =  Transaction.joins(:invoice).where(invoices:{customer_id: customer_id})
+    !transactions.empty? ? respond_with(transactions) : not_found
   end
 
   private
