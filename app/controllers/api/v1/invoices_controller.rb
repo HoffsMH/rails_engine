@@ -4,8 +4,8 @@ class Api::V1::InvoicesController < Api::V1::BaseApiController
   end
 
   def items
-    item =  Item.joins(:invoice_items).where(invoice_items: invoice_params)
-    item ? respond_with(item) : not_found
+    items =  Item.joins(:invoice_items).where(invoice_items: invoice_params)
+    !items.empty? ? respond_with(items) : not_found
   end
 
   def invoice_items
