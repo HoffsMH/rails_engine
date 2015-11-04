@@ -14,8 +14,13 @@ class Api::V1::MerchantsController < Api::V1::BaseApiController
   end
 
   def most_revenue
-    binding.pry
-    Merchant.most
+    top_merchants = Merchant.most_revenue(rankings)
+    !top_merchants.empty? ? respond_with(top_merchants) : not_found
+  end
+
+  def most_items
+    top_merchants = Merchant.most_revenue(rankings)
+    !top_merchants.empty? ? respond_with(top_merchants) : not_found
   end
 
   private
@@ -23,6 +28,6 @@ class Api::V1::MerchantsController < Api::V1::BaseApiController
     params.permit(:merchant_id)
   end
   def rankings
-
+    params.permit(:quantity)[:quantity].to_i
   end
 end
