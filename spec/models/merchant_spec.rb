@@ -7,6 +7,7 @@ RSpec.describe Merchant, type: :model do
         100.times do
           create(:merchant)
         end
+        binding.pry
       end
     end
   end
