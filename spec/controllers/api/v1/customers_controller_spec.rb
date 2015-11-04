@@ -3,27 +3,27 @@ require 'support/basic_endpoints'
 
 RSpec.describe Api::V1::CustomersController, type: :controller do
   test_basic_endpoints(Customer)
-  describe "#invoice items" do
+  describe "#invoices" do
     context "when given valid params" do
       it "it returns the item's invoice items" do
-        item = create(:item)
-        create(:invoice_item, item_id: item.id)
-        invoice_item = create(:invoice_item, item_id: item.id)
+        customer = create(:customer)
+        create(:invoice, customer_id: customer.id)
+        invoice = create(:invoice, customer_id: customer.id)
 
-        get :invoice_items, format: :json, item_id: item.id
+        get :invoices, format: :json, customer_id: customer.id
 
-        expect(response.body).to include("\"item_id\":#{item.id}")
+        expect(response.body).to include("\"customer_id\":#{customer.id}")
         expect(json.count).to eq(2)
       end
     end
 
     context "when given invalid params" do
       it "it returns 404 status and an error message" do
-        item = create(:item)
-        create(:invoice_item, item_id: item.id)
-        invoice_item = create(:invoice_item, item_id: item.id)
+        customer = create(:customer)
+        create(:invoice, customer_id: customer.id)
+        invoice = create(:invoice, customer_id: customer.id)
 
-        get :invoice_items, format: :json, item_id: 9929992
+        get :invoices, format: :json, item_id: 9929992
 
         expect(response.body).to include("not found")
         expect(response.status).to eq(404)
