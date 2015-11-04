@@ -19,7 +19,7 @@ class Api::V1::BaseApiController < ApplicationController
     def find_all
       objects = object_type.where(find_params)
 
-      objects ? respond_with(objects) : not_found
+      !objects.empty? ? respond_with(objects) : not_found
     end
 
     def random

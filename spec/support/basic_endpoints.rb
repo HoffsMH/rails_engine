@@ -14,7 +14,6 @@
     # with time if we user serializers
 
 def random_objects_with_max(max, model_type)
-
   number_of_objects = Random.rand(1..max)
   objects = []
   number_of_objects.times do |index|
@@ -24,9 +23,7 @@ def random_objects_with_max(max, model_type)
 end
 
 def random_attribute(object)
-  key = object.attribute_names.sample.to_sym
-  value = object.attributes[key.to_s]
-  {key => value}
+  object.attribute_names.sample.to_sym
 end
 
 def test_basic_endpoints(model_type=nil)
@@ -76,20 +73,24 @@ def test_basic_endpoints(model_type=nil)
   context "#find action for #{model_type}" do
     it "finds an #{model_type}" do
       objects = random_objects_with_max(30, model_type)
+      object = objects.sample
+      attribute = random_attribute(object)
+      value = object.attributes[attribute.to_s]
 
       get :find, format: :json, id: objects.sample.id
-
       expect(response.status).to eq(200)
-      binding.pry
-      get :find, format: :json
 
+      get :find, format: :json, attribute => value
       expect(response.status).to eq(200)
     end
 
     it "displays only one #{model_type}" do
       objects = random_objects_with_max(30, model_type)
+      object = objects.sample
+      attribute = random_attribute(object)
+      value = object.attributes[attribute.to_s]
 
-      get :show, format: :json, id: objects.sample.id
+      get :find, format: :json, attribute => value
 
       expect(json.count).to eq(model_type.column_names.count)
     end
@@ -97,10 +98,56 @@ def test_basic_endpoints(model_type=nil)
     it "returns 404 when the #{model_type} is not found" do
       objects = random_objects_with_max(30, model_type)
 
-      get :show, format: :json, id: 9999999
+      get :find, format: :json, id: 9999999
 
       expect(response.status).to eq(404)
       expect(response.body).to include("not found")
+    end
+  end
+
+  context "#find_all action for #{model_type}" do
+    it "finds multiple #{model_type}" do
+      object1 =  create(model_type)
+      begin
+        attribute = random_attribute(object1)
+      end while attribute == :id
+
+      object2 = create(model_type, attribute => object1.attributes[attribute.to_s])
+      object3 = create(model_type, attribute => object1.attributes[attribute.to_s])
+
+
+      get :find_all, format: :json, attribute => object1.attributes[attribute.to_s]
+      expect(response.status).to eq(200)
+
+      get :find_all, format: :json, attribute => object1.attributes[attribute.to_s]
+      expect(json.count).to eq(3)
+    end
+
+    it "returns 404 when no #{model_type} is not found" do
+      objects = random_objects_with_max(30, model_type)
+
+      get :find_all, format: :json, id: 9999999
+
+      expect(response.status).to eq(404)
+      expect(response.body).to include("not found")
+    end
+  end
+
+  context "#random action for #{model_type}" do
+    it "gives a random #{model_type}" do
+      objects = random_objects_with_max(300, model_type)
+
+
+      get :random, format: :json
+      expect(response.status).to eq(200)
+
+      get :random, format: :json
+      first_response = json
+
+      get :random, format: :json
+      second_response = json
+
+      expect(second_response).not_to eq(first_response)
     end
   end
 end
