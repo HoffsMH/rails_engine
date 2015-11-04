@@ -46,10 +46,12 @@ def test_basic_endpoints(model_type=nil)
   context "#show action for #{model_type}" do
     it "gets an #{model_type}" do
       objects = random_objects_with_max(30, model_type)
+      object = objects.sample
 
-      get :show, format: :json, id: objects.sample.id
+      get :show, format: :json, id: object.id
 
       expect(response.status).to eq(200)
+      expect(response.body).to include(object.attributes.to_json)
     end
 
     it "displays only one #{model_type}" do
@@ -82,6 +84,9 @@ def test_basic_endpoints(model_type=nil)
 
       get :find, format: :json, attribute => value
       expect(response.status).to eq(200)
+
+      get :find, format: :json, id: object.id
+      expect(response.body).to include(object.attributes.to_json)
     end
 
     it "displays only one #{model_type}" do
@@ -121,6 +126,10 @@ def test_basic_endpoints(model_type=nil)
 
       get :find_all, format: :json, attribute => object1.attributes[attribute.to_s]
       expect(json.count).to eq(3)
+
+      get :find_all, format: :json, id: object1.id
+      expect(response.body).to include(object1.attributes.to_json)
+
     end
 
     it "returns 404 when no #{model_type} is not found" do
@@ -135,7 +144,7 @@ def test_basic_endpoints(model_type=nil)
 
   context "#random action for #{model_type}" do
     it "gives a random #{model_type}" do
-      objects = random_objects_with_max(300, model_type)
+      objects = random_objects_with_max(400, model_type)
 
 
       get :random, format: :json
