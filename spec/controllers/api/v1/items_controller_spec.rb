@@ -30,4 +30,31 @@ RSpec.describe Api::V1::ItemsController, type: :controller do
       end
     end
   end
+
+
+  describe "#merchant" do
+    context "when given valid params" do
+      it "it returns the item's merchant" do
+        merchant = create(:merchant)
+        item = create(:item, merchant_id: merchant.id)
+
+        get :merchant, format: :json, item_id: item.id
+
+        expect(response.body).to include("\"id\":#{merchant.id}")
+      end
+    end
+
+    context "when given invalid params" do
+      it "it returns 404 status and an error message" do
+        merchant = create(:merchant)
+        item = create(:item, merchant_id: merchant.id)
+
+        get :merchant, format: :json, item_id: 9929992
+
+        expect(response.body).to include("not found")
+        expect(response.status).to eq(404)
+      end
+    end
+  end
+
 end
