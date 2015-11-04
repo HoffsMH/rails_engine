@@ -35,5 +35,38 @@ RSpec.describe Api::V1::MerchantsController, type: :controller do
     end
   end
 
+  describe "#invoices" do
+    context "when given valid params" do
+      it "it returns the merchant's invoices" do
+        merchant = create(:merchant)
+        create(:invoice, merchant_id: merchant.id)
+        create(:invoice)
+        create(:invoice, merchant_id: merchant.id)
+        create(:invoice)
+
+
+        get :invoices, format: :json, merchant_id: merchant.id
+
+        expect(response.body).to include("\"merchant_id\":#{merchant.id}")
+        expect(json.count).to eq(2)
+      end
+    end
+
+    context "when given invalid params" do
+      it "it returns 404 status and an error message" do
+        merchant = create(:merchant)
+        create(:invoice, merchant_id: merchant.id)
+        create(:invoice)
+        create(:invoice, merchant_id: merchant.id)
+        create(:invoice)
+
+        get :invoices, format: :json, merchant_id: 9929992
+
+        expect(response.body).to include("not found")
+        expect(response.status).to eq(404)
+      end
+    end
+  end
+
 
 end
