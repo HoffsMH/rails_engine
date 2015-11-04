@@ -33,4 +33,35 @@ RSpec.describe Api::V1::InvoiceItemsController, type: :controller do
     end
   end
 
+  describe "#item" do
+    context "when given valid params" do
+      it "it returns invoice_item's item" do
+        merchant = create(:merchant)
+        item = create(:item)
+        item = create(:item, merchant_id: merchant.id)
+        item = create(:item)
+        invoice_item = create(:invoice_item, item_id: item.id)
+
+        get :item, format: :json, invoice_item_id: invoice_item.id
+        binding.pry
+        expect(response.body).to include("\"merchant_id\":#{merchant.id}")
+      end
+    end
+
+    context "when given invalid params" do
+      it "it returns 404 status and an error message" do
+        merchant = create(:merchant)
+        item = create(:item)
+        item = create(:item, merchant_id: merchant.id)
+        item = create(:item)
+        invoice_item = create(:invoice_item, item_id: item.id)
+
+        get :invoice, format: :json, invoice_item_id: 9929992
+
+        expect(response.body).to include("not found")
+        expect(response.status).to eq(404)
+      end
+    end
+  end
+
 end
