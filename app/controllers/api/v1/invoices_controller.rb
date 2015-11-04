@@ -16,11 +16,11 @@ class Api::V1::InvoicesController < Api::V1::BaseApiController
   end
 
   def customer
-    respond_with Customer.joins(:invoices).where(invoices: {id: invoice_id})
+    respond_with Customer.joins(:invoices).find_by(invoices: {id: invoice_id})
   end
 
   def merchant
-    respond_with Merchant.joins(:invoices).where(invoices: {id: invoice_id})
+    respond_with Merchant.joins(:invoices).find_by(invoices: {id: invoice_id})
   end
 
   private
