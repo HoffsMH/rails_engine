@@ -9,9 +9,11 @@ class Merchant < ActiveRecord::Base
                          includes(:merchant).
                          group(:merchant).
                          sum("quantity * unit_price")
+
     sorted = merchant_revenues.sort_by do |merchant, revenue|
       revenue
     end.reverse
+
     sorted.first(rankings).map do |merchant, revenue|
       merchant
     end

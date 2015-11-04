@@ -13,8 +13,16 @@ class Api::V1::MerchantsController < Api::V1::BaseApiController
     !invoices.empty? ? respond_with(invoices) : not_found
   end
 
+  def most_revenue
+    binding.pry
+    Merchant.most
+  end
+
   private
   def merchant_params
     params.permit(:merchant_id)
+  end
+  def rankings
+
   end
 end
