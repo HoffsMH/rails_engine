@@ -119,4 +119,46 @@ RSpec.describe Api::V1::InvoicesController, type: :controller do
     end
   end
 
+  describe "#customer" do
+    context "when given valid params" do
+      it "it returns the invoice's customer" do
+        invoice = create(:invoice)
+
+        item1 = create(:item)
+        item2 = create(:item)
+
+        transaction1 = create(:transaction, invoice_id: invoice.id)
+        transaction2 = create(:transaction, invoice_id: invoice.id)
+
+        invoice_item1 = create(:invoice_item, item_id: item1.id, invoice_id: invoice.id)
+        invoice_item2 = create(:invoice_item, item_id: item2.id, invoice_id: invoice.id)
+
+
+        get :customer, format: :json, invoice_id: invoice.id
+
+        expect(response.body).to include("\"id\":#{invoice.customer.id}")
+      end
+    end
+
+    context "when given invalid params" do
+      it "it returns 404 status and an error message" do
+        invoice = create(:invoice)
+
+        item1 = create(:item)
+        item2 = create(:item)
+
+        transaction1 = create(:transaction, invoice_id: invoice.id)
+        transaction2 = create(:transaction, invoice_id: invoice.id)
+
+        invoice_item1 = create(:invoice_item, item_id: item1.id, invoice_id: invoice.id)
+        invoice_item2 = create(:invoice_item, item_id: item2.id, invoice_id: invoice.id)
+
+        get :customer, format: :json, invoice_id: 9929992
+
+        expect(response.body).to include("not found")
+        expect(response.status).to eq(404)
+      end
+    end
+  end
+
 end
