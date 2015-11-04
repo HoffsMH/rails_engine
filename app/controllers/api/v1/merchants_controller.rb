@@ -4,11 +4,13 @@ class Api::V1::MerchantsController < Api::V1::BaseApiController
   end
 
   def items
-    respond_with Item.where(merchant_params)
+    items =  Item.where(merchant_params)
+    !items.empty? ? respond_with(items) : not_found
   end
 
   def invoices
-    respond_with Invoice.where(merchant_params)
+    invoices =  Invoice.where(merchant_params)
+    !invoices.empty? ? respond_with(invoices) : not_found
   end
 
   private
