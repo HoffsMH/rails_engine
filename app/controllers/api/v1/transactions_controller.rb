@@ -4,7 +4,7 @@ class Api::V1::TransactionsController < Api::V1::BaseApiController
   end
 
   def invoice
-    respond_with Invoice.joins(:transactions).where(transactions: {id: transaction_id})
+    respond_with Invoice.joins(:transactions).find_by(transactions: {id: transaction_id})
   end
 
   private
