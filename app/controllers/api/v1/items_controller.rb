@@ -9,7 +9,9 @@ class Api::V1::ItemsController < Api::V1::BaseApiController
   end
 
   def merchant
-    respond_with Merchant.joins(:items).find_by(items: {id: item_id})
+    merchant = Merchant.joins(:items).find_by(items: {id: item_id})
+    
+    merchant ? respond_with(merchant) : not_found
   end
 
   private
