@@ -129,7 +129,6 @@ def test_basic_endpoints(model_type=nil)
 
       get :find_all, format: :json, id: object1.id
       expect(response.body).to include(object1.attributes.to_json)
-
     end
 
     it "returns 404 when no #{model_type} is not found" do
