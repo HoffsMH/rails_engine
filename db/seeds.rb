@@ -17,9 +17,9 @@ def load_csv(file_path, model_type)
     CSV.foreach(file_path, args) do |row|
       record = model_type.new()
       row.headers.each_with_index do |header, index|
-        if header != :id
+        if header == :id || header == :credit_card_expiration_date
           record.update(header => row[index])
-        end
+        else
       end
       count += 1
       print '.' if (count % 10) == 0
