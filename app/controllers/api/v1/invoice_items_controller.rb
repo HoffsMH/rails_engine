@@ -7,7 +7,6 @@ class Api::V1::InvoiceItemsController < Api::V1::BaseApiController
     invoice = Invoice.joins(:invoice_items).find_by(invoice_items: {id: invoice_item_id})
     invoice ? respond_with(invoice) : not_found
   end
-  end
 
   def item
     item = Item.joins(:invoice_items).find_by(invoice_items: {id: invoice_item_id})
