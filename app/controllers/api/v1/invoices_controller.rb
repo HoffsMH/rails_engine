@@ -4,23 +4,28 @@ class Api::V1::InvoicesController < Api::V1::BaseApiController
   end
 
   def items
-    respond_with Item.joins(:invoice_items).where(invoice_items: invoice_params)
+    item =  Item.joins(:invoice_items).where(invoice_items: invoice_params)
+    item ? respond_with(item) : not_found
   end
 
   def invoice_items
-    respond_with InvoiceItem.where(invoice_params)
+    invoice_items = InvoiceItem.where(invoice_params)
+    !invoice_items.empty? ? respond_with(invoice_items) : not_found
   end
 
   def transactions
-    respond_with Transaction.where(invoice_params)
+    transactions = Transaction.where(invoice_params)
+    !transactions.empty? ? respond_with(transactions) : not_found
   end
 
   def customer
-    respond_with Customer.joins(:invoices).find_by(invoices: {id: invoice_id})
+    customer = Customer.joins(:invoices).find_by(invoices: {id: invoice_id})
+    customer ? respond_with(customer) : not_found
   end
 
   def merchant
-    respond_with Merchant.joins(:invoices).find_by(invoices: {id: invoice_id})
+    merchant = Merchant.joins(:invoices).find_by(invoices: {id: invoice_id})
+    merchant ? respond_with(merchant) : not_found
   end
 
   private
