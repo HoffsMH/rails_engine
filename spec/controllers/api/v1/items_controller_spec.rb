@@ -24,9 +24,9 @@ RSpec.describe Api::V1::ItemsController, type: :controller do
         invoice_item = create(:invoice_item, item_id: item.id)
 
         get :invoice_items, format: :json, item_id: 9929992
-        binding.pry
-        expect(response.body).to include("\"item_id\":#{item.id}")
-        expect(json.count).to eq(2)
+
+        expect(response.body).to include("not found")
+        expect(response.status).to eq(404)
       end
     end
   end

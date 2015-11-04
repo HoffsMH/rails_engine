@@ -37,6 +37,6 @@ class Api::V1::BaseApiController < ApplicationController
     end
 
     def not_found
-      render plain: "#{object_type} not found.", status: 404
+      render json: {message: "#{object_type} not found."}, status: 404
     end
 end

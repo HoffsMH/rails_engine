@@ -4,7 +4,8 @@ class Api::V1::ItemsController < Api::V1::BaseApiController
   end
 
   def invoice_items
-    respond_with InvoiceItem.joins(:item).where(items: {id: item_id})
+    invoice_items = InvoiceItem.joins(:item).where(items: {id: item_id})
+    !invoice_items.empty? ? respond_with(invoice_items) : not_found
   end
 
   def merchant
