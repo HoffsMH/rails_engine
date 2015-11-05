@@ -36,6 +36,7 @@ Rails.application.routes.draw do
         get '/item', to: 'invoice_items#item'
       end
 
+      get 'items/most_revenue', to: 'items#most_revenue'
       basic_routes("items")
       resources :items, except: [:new, :edit, :update, :create], defaults: {format: 'json'} do
         get '/invoice_items', to: 'items#invoice_items'
@@ -49,8 +50,8 @@ Rails.application.routes.draw do
       end
 
 
-      basic_routes("customers")
       get 'customers/:id/favorite_merchant', to: 'customers#favorite_merchant'
+      basic_routes("customers")
       resources :customers, except: [:new, :edit, :update, :create], defaults: {format: 'json'} do
         get '/invoices', to: 'customers#invoices'
         get '/transactions', to: 'customers#transactions'

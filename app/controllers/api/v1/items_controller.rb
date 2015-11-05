@@ -13,6 +13,10 @@ class Api::V1::ItemsController < Api::V1::BaseApiController
     merchant ? respond_with(merchant) : not_found
   end
 
+  def most_revenue
+    
+  end
+
   private
   def item_params
     params.permit(:item_id)
