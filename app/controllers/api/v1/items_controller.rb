@@ -14,7 +14,8 @@ class Api::V1::ItemsController < Api::V1::BaseApiController
   end
 
   def most_revenue
-    
+    top_items = Item.most_revenue(rankings)
+    !top_items.empty? ? respond_with(top_items) : not_found
   end
 
   private
@@ -24,5 +25,8 @@ class Api::V1::ItemsController < Api::V1::BaseApiController
 
   def item_id
     item_params[:item_id]
+  end
+  def rankings
+    params.permit(:quantity)[:quantity].to_i
   end
 end
