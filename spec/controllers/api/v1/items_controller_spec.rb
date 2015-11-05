@@ -61,7 +61,6 @@ RSpec.describe Api::V1::ItemsController, type: :controller do
     context "when given valid params" do
       it "it returns items with the most revenue" do
         data_set = gen_merchants(20)
-        item = data_set[:merchants].first.id
 
         get :most_revenue, format: :json, quantity: 1
 
@@ -69,5 +68,32 @@ RSpec.describe Api::V1::ItemsController, type: :controller do
       end
     end
   end
+
+  describe "#most_items" do
+    context "when given valid params" do
+      it "it returns items with the most sold" do
+        data_set = gen_merchants(20)
+
+        get :most_items, format: :json, quantity: 1
+
+        expect(response.status).to eq(200)
+      end
+    end
+  end
+
+  describe "#best_day" do
+    context "when given valid params" do
+      it "it returns an items  best day" do
+        data_set = gen_merchants(20)
+        merchant = data_set[:merchants].first
+        item = create(:item, merchant_id: merchant.id)
+
+        get :best_day, format: :json, id: item.id
+
+        expect(response.status).to eq(200)
+      end
+    end
+  end
+
 
 end

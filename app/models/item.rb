@@ -25,11 +25,16 @@ class Item < ActiveRecord::Base
   end
 
   def best_day
-    day = InvoiceItem.successful
+    result = InvoiceItem.successful
       .where("item_id" => id)
       .group("invoices.created_at")
       .order("sum_quantity DESC")
-      .sum("quantity").first[0]
+      .sum("quantity")
+      if result && result.first
+        day = result.first[0]
+      else
+        day = nil
+      end
       {best_day: day}
   end
 end
