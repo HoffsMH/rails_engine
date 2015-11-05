@@ -35,7 +35,7 @@ class Api::V1::ItemsController < Api::V1::BaseApiController
   end
 
   def item_id
-    item_params[:item_id] ||params.permit(:id)[:id]
+    item_params[:item_id] || params.permit(:id)[:id]
   end
 
   def rankings

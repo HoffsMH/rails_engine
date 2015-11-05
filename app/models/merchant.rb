@@ -6,13 +6,13 @@ class Merchant < ActiveRecord::Base
   has_many :customers, through: :invoices
 
   def self.most_revenue(rankings)
-    thing1 = Merchant.select("merchants.*, sum(invoice_items.quantity * invoice_items.unit_price) as revenue").
+    revenue_rankings = Merchant.select("merchants.*, sum(invoice_items.quantity * invoice_items.unit_price) as revenue").
                 joins(invoices: :transactions).
                 joins(:invoice_items).
                 merge(InvoiceItem.successful).
                 group('merchants.id').
                 order("revenue DESC")
-    thing1.first(rankings)
+    revenue_rankings.first(rankings)
   end
 
   def self.most_items(rankings)
