@@ -22,7 +22,7 @@ class Merchant < ActiveRecord::Base
     thing1 = Merchant.select("merchants.*, sum(invoice_items.quantity * invoice_items.unit_price) as revenue").
                 joins(invoices: :transactions).
                 joins(:invoice_items).
-                # merge(Transaction.successful).
+                merge(InvoiceItem.successful).
                 group('merchants.id').
                 order("revenue DESC")
     thing1.first(rankings)
