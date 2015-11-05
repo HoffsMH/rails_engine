@@ -16,17 +16,12 @@ class Merchant < ActiveRecord::Base
   end
 
   def self.most_items(rankings)
-    merchant_items = Invoice.successful.joins(:invoice_items).
-    includes(:merchant).
-    group(:merchant).
-    sum("quantity")
-
-    sorted = merchant_items.sort_by do |merchant, items|
-      items
-    end.reverse
-    sorted.first(rankings).map do |merchant, items|
-      merchant
-    end
+    item_rankings = Merchant.select("merchants.*, sum(invoice_items.quantity) as items_count").
+                joins(:invoice_items).
+                group('merchants.id').
+                order("items_count DESC").
+                merge(InvoiceItem.successful)
+    item_rankings.first(rankings)
   end
 
   def self.revenue(date)
