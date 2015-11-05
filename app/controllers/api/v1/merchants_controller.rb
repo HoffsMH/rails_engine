@@ -40,6 +40,14 @@ class Api::V1::MerchantsController < Api::V1::BaseApiController
     favorite ? respond_with(favorite) : not_found
   end
 
+  def customers_with_pending_invoices
+    merchant = Merchant.find_by(id: merchant_id)
+    pending = merchant.customers_with_pending_invoices
+    pending ? respond_with(pending) : not_found
+  end
+
+
+
   private
   def merchant_params
     params.permit(:merchant_id)

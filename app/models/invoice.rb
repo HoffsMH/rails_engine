@@ -3,6 +3,7 @@ class Invoice < ActiveRecord::Base
   belongs_to :merchant
   has_many :transactions
   has_many :invoice_items
+  scope :unpaid, -> { joins(:transactions).where(transactions: {result: "failed"}).distinct }
 
   def self.successful
     joins(:transactions).where(transactions: {result: "success"})

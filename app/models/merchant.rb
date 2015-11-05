@@ -1,17 +1,28 @@
 class Merchant < ActiveRecord::Base
   has_many :invoices
-
-
   has_many :items
   has_many :invoice_items, through: :invoices
   has_many :transactions, through: :invoices
   has_many :customers, through: :invoices
 
   def self.most_revenue(rankings)
+    # merchant_revenues = Invoice.successful.joins(:invoice_items).
+    # includes(:merchant).
+    # group(:merchant).
+    # sum("quantity * unit_price")
+    #
+    #
+    # sorted = merchant_revenues.sort_by do |merchant, revenue|
+    #   revenue
+    # end.reverse
+    #
+    # sorted.first(rankings).map do |merchant, revenue|
+    #   merchant
+    # end
     thing1 = Merchant.select("merchants.*, sum(invoice_items.quantity * invoice_items.unit_price) as revenue").
                 joins(invoices: :transactions).
                 joins(:invoice_items).
-                merge(Transaction.successful).
+                # merge(Transaction.successful).
                 group('merchants.id').
                 order("revenue DESC")
     thing1.first(rankings)
@@ -30,8 +41,6 @@ class Merchant < ActiveRecord::Base
       merchant
     end
   end
-
-  # unpaid invoices.joins(cus)
 
   def self.revenue(date)
     rev = Invoice.successful.joins(:invoice_items).where(invoices: {created_at: date}).
@@ -62,6 +71,9 @@ class Merchant < ActiveRecord::Base
   end
 
   def customers_with_pending_invoices
-
+    customer_ids = invoices.unpaid.joins(:customer).pluck(:customer_id)
+    customer_ids.map do |customer_id|
+      Customer.find_by(id: customer_id)
+    end
   end
 end
