@@ -62,7 +62,6 @@ class Merchant < ActiveRecord::Base
 
   def favorite_customer
     # favorite = invoices.successful.joins(:transactions).group(:customer_id).count(:transactions)
-
     favorites = customers.select("customers.*, count(invoices.customer_id) as favorites").
               joins(invoices: :transactions).
               merge(Transaction.successful).
