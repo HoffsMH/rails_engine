@@ -62,7 +62,7 @@ class Api::V1::MerchantsController < Api::V1::BaseApiController
   end
 
   def merchant_id
-    params.permit(:id)[:id]
+    merchant_params[:merchant_id] || params.permit(:id)[:id]
   end
 
 end

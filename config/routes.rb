@@ -1,7 +1,7 @@
 def basic_routes(type)
-  get "/#{type}/find", to: "#{type}#find", defaults: {format: 'json'}
-  get "/#{type}/find_all", to: "#{type}#find_all", defaults: {format: 'json'}
-  get "/#{type}/random", to: "#{type}#random", defaults: {format: 'json'}
+  get "/#{type}/find", to: "#{type}#find"
+  get "/#{type}/find_all", to: "#{type}#find_all"
+  get "/#{type}/random", to: "#{type}#random"
 end
 
 Rails.application.routes.draw do
@@ -19,10 +19,11 @@ Rails.application.routes.draw do
       resources :merchants, except: [:new, :edit, :update, :create] do
         get '/items', to: 'merchants#items'
         get '/invoices', to: 'merchants#invoices'
+
       end
 
       basic_routes("invoices")
-      resources :invoices, except: [:new, :edit, :update, :create], defaults: {format: 'json'} do
+      resources :invoices, except: [:new, :edit, :update, :create] do
         get '/transactions', to: 'invoices#transactions'
         get '/invoice_items', to: 'invoices#invoice_items'
         get '/items', to: 'invoices#items'
@@ -31,7 +32,7 @@ Rails.application.routes.draw do
       end
 
       basic_routes("invoice_items")
-      resources :invoice_items, except: [:new, :edit, :update, :create], defaults: {format: 'json'} do
+      resources :invoice_items, except: [:new, :edit, :update, :create]do
         get '/invoice', to: 'invoice_items#invoice'
         get '/item', to: 'invoice_items#item'
       end
@@ -40,21 +41,21 @@ Rails.application.routes.draw do
       get 'items/most_items', to: 'items#most_items'
       get 'items/:id/best_day', to: 'items#best_day'
       basic_routes("items")
-      resources :items, except: [:new, :edit, :update, :create], defaults: {format: 'json'} do
+      resources :items, except: [:new, :edit, :update, :create] do
         get '/invoice_items', to: 'items#invoice_items'
         get '/merchant', to: 'items#merchant'
       end
 
 
       basic_routes("transactions")
-      resources :transactions, except: [:new, :edit, :update, :create], defaults: {format: 'json'} do
+      resources :transactions, except: [:new, :edit, :update, :create] do
         get '/invoice', to: 'transactions#invoice'
       end
 
 
       get 'customers/:id/favorite_merchant', to: 'customers#favorite_merchant'
       basic_routes("customers")
-      resources :customers, except: [:new, :edit, :update, :create], defaults: {format: 'json'} do
+      resources :customers, except: [:new, :edit, :update, :create] do
         get '/invoices', to: 'customers#invoices'
         get '/transactions', to: 'customers#transactions'
       end
