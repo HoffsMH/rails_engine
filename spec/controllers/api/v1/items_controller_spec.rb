@@ -57,4 +57,17 @@ RSpec.describe Api::V1::ItemsController, type: :controller do
     end
   end
 
+  describe "#most_revenue" do
+    context "when given valid params" do
+      it "it returns items with the most revenue" do
+        data_set = gen_merchants(20)
+        item = data_set[:merchants].first.id
+
+        get :most_revenue, format: :json, quantity: 1
+
+        expect(response.status).to eq(200)
+      end
+    end
+  end
+
 end
