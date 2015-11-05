@@ -4,13 +4,13 @@ class Item < ActiveRecord::Base
   has_many :invoices, through: :invoice_items
 
 
-  def most_revenue(rankings)
-    thing1 = Merchant.select("merchants.*, sum(invoice_items.quantity * invoice_items.unit_price) as revenue").
+  def self.most_revenue(rankings)
+    thing1 = Item.select("items.*, count(invoice_items.quantity) as items_count").
                 joins(invoices: :transactions).
                 joins(:invoice_items).
                 merge(InvoiceItem.successful).
-                group('merchants.id').
-                order("revenue DESC")
+                group('items.id').
+                order("items_count DESC")
     thing1.first(rankings)
   end
 end
