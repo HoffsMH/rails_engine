@@ -14,7 +14,8 @@ class Api::V1::CustomersController < Api::V1::BaseApiController
   end
 
   def favorite_merchant
-    customer = Customer.find_by(id: customer_id_)
+    customer = Customer.find_by(id: customer_id)
+
     favorite = customer.favorite_merchant
     favorite ? respond_with(favorite) : not_found
   end
@@ -25,10 +26,6 @@ class Api::V1::CustomersController < Api::V1::BaseApiController
   end
 
   def customer_id
-    customer_params[:customer_id]
-  end
-
-  def customer_id_
-      params.permit(:id)[:id]
+    customer_params[:customer_id] || params.permit(:id)[:id]
   end
 end
