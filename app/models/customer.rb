@@ -8,6 +8,12 @@ class Customer < ActiveRecord::Base
               joins(invoices: :transactions).
               merge(Transaction.successful).
               group("merchants.id").
-              order("favorites desc").first
+              order("favorites desc")
+
+    if !favorites.to_a.empty?
+      favorites.first
+    else
+      {favorite_merchant: nil}
+    end
   end
 end

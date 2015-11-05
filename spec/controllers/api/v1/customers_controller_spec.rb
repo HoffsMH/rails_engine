@@ -64,4 +64,18 @@ RSpec.describe Api::V1::CustomersController, type: :controller do
     end
   end
 
+  describe "#favorite_merchant" do
+    context "when given valid params" do
+      it "it returns an items  best day" do
+        data_set = gen_merchants(20)
+        # merchant = data_set[:merchants].first
+        customer = create(:customer)
+
+        get :favorite_merchant, format: :json, id: customer.id
+
+        expect(response.status).to eq(200)
+      end
+    end
+  end
+
 end
