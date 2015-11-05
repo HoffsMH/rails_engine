@@ -13,6 +13,12 @@ class Api::V1::CustomersController < Api::V1::BaseApiController
     !transactions.empty? ? respond_with(transactions) : not_found
   end
 
+  def favorite_merchant
+    customer = Customer.find_by(id: customer_id_)
+    favorite = customer.favorite_merchant
+    favorite ? respond_with(favorite) : not_found
+  end
+
   private
   def customer_params
     params.permit(:customer_id)
@@ -20,5 +26,9 @@ class Api::V1::CustomersController < Api::V1::BaseApiController
 
   def customer_id
     customer_params[:customer_id]
+  end
+
+  def customer_id_
+      params.permit(:id)[:id]
   end
 end

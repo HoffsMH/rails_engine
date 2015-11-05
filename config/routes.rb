@@ -50,7 +50,7 @@ Rails.application.routes.draw do
 
 
       basic_routes("customers")
-      get 'customers/:id/favorite_merchant', to: 'customer#customers_with_pending_invoices'
+      get 'customers/:id/favorite_merchant', to: 'customers#favorite_merchant'
       resources :customers, except: [:new, :edit, :update, :create], defaults: {format: 'json'} do
         get '/invoices', to: 'customers#invoices'
         get '/transactions', to: 'customers#transactions'
