@@ -34,6 +34,12 @@ class Api::V1::MerchantsController < Api::V1::BaseApiController
     rev ? respond_with(rev) : not_found
   end
 
+  def favorite_customer
+    merchant = Merchant.find_by(id: merchant_id)
+    favorite = merchant.favorite_customer
+    favorite ? respond_with(favorite) : not_found
+  end
+
   private
   def merchant_params
     params.permit(:merchant_id)

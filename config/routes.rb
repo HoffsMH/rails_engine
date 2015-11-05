@@ -6,14 +6,15 @@ end
 
 Rails.application.routes.draw do
 
-  namespace :api do
+  namespace :api, defaults: {format: 'json'} do
     namespace :v1 do
-      get 'merchants/most_revenue', to: 'merchants#most_revenue', defaults: {format: 'json'}
-      get 'merchants/most_items', to: 'merchants#most_items', defaults: {format: 'json'}
-      get 'merchants/revenue', to: 'merchants#revenue', defaults: {format: 'json'}
-      get 'merchants/:id/revenue', to: 'merchants#merchant_revenue', defaults: {format: 'json'}
+      get 'merchants/most_revenue', to: 'merchants#most_revenue'
+      get 'merchants/most_items', to: 'merchants#most_items'
+      get 'merchants/revenue', to: 'merchants#revenue'
+      get 'merchants/:id/revenue', to: 'merchants#merchant_revenue'
+      get 'merchants/:id/favorite_customer', to: 'merchants#favorite_customer'
       basic_routes("merchants")
-      resources :merchants, except: [:new, :edit, :update, :create], defaults: {format: 'json'} do
+      resources :merchants, except: [:new, :edit, :update, :create] do
         get '/items', to: 'merchants#items'
         get '/invoices', to: 'merchants#invoices'
       end
