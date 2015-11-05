@@ -9,11 +9,7 @@ class Customer < ActiveRecord::Base
               merge(Transaction.successful).
               group("merchants.id").
               order("favorites desc")
-
-    if !favorites.to_a.empty?
-      favorites.first
-    else
-      {favorite_merchant: nil}
-    end
+              
+    !favorites.to_a.empty? ? favorites.first : {favorite_merchant: nil}
   end
 end
