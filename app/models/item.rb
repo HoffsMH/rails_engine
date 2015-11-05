@@ -5,12 +5,22 @@ class Item < ActiveRecord::Base
 
 
   def self.most_revenue(rankings)
-    thing1 = Item.select("items.*, count(invoice_items.quantity) as items_count").
+    output = Item.select("items.*, sum(invoice_items.quantity * invoice_items.unit_price) as items_revenue").
+                joins(invoices: :transactions).
+                joins(:invoice_items).
+                merge(InvoiceItem.successful).
+                group('items.id').
+                order("items_revenue DESC")
+    output.first(rankings)
+  end
+
+  def self.most_items(rankings)
+    output = Item.select("items.*, count(invoice_items.quantity) as items_count").
                 joins(invoices: :transactions).
                 joins(:invoice_items).
                 merge(InvoiceItem.successful).
                 group('items.id').
                 order("items_count DESC")
-    thing1.first(rankings)
+    output.first(rankings)
   end
 end
