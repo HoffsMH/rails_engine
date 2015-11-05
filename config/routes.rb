@@ -37,6 +37,7 @@ Rails.application.routes.draw do
       end
 
       get 'items/most_revenue', to: 'items#most_revenue'
+      get 'items/most_items', to: 'items#most_items'
       basic_routes("items")
       resources :items, except: [:new, :edit, :update, :create], defaults: {format: 'json'} do
         get '/invoice_items', to: 'items#invoice_items'
