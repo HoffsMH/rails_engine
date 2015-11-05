@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       get 'merchants/most_revenue', to: 'merchants#most_revenue', defaults: {format: 'json'}
       get 'merchants/most_items', to: 'merchants#most_items', defaults: {format: 'json'}
+      get 'merchants/revenue', to: 'merchants#revenue', defaults: {format: 'json'}
+      get 'merchants/:id/revenue', to: 'merchants#merchant_revenue', defaults: {format: 'json'}
       basic_routes("merchants")
       resources :merchants, except: [:new, :edit, :update, :create], defaults: {format: 'json'} do
         get '/items', to: 'merchants#items'

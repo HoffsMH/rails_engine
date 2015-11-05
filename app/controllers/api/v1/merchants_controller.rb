@@ -19,15 +19,36 @@ class Api::V1::MerchantsController < Api::V1::BaseApiController
   end
 
   def most_items
-    top_merchants = Merchant.most_revenue(rankings)
+    top_merchants = Merchant.most_items(rankings)
     !top_merchants.empty? ? respond_with(top_merchants) : not_found
+  end
+
+  def revenue
+    rev = Merchant.revenue(date)
+    rev ? respond_with(rev) : not_found
+  end
+
+  def merchant_revenue
+    merchant = Merchant.find_by(id: merchant_id)
+    rev = merchant.revenue(date)
+    rev ? respond_with(rev) : not_found
   end
 
   private
   def merchant_params
     params.permit(:merchant_id)
   end
+
   def rankings
     params.permit(:quantity)[:quantity].to_i
   end
+
+  def date
+    params.permit(:date)[:date]
+  end
+
+  def merchant_id
+    params.permit(:id)[:id]
+  end
+
 end
