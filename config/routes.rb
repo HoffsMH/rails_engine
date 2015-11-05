@@ -19,7 +19,6 @@ Rails.application.routes.draw do
       resources :merchants, except: [:new, :edit, :update, :create] do
         get '/items', to: 'merchants#items'
         get '/invoices', to: 'merchants#invoices'
-
       end
 
       basic_routes("invoices")
