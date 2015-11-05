@@ -23,13 +23,19 @@ class Api::V1::ItemsController < Api::V1::BaseApiController
     !top_items.empty? ? respond_with(top_items) : not_found
   end
 
+  def best_day
+    item = Item.find_by(id: item_id)
+    best_day = item.best_day
+    best_day ? respond_with(best_day) : not_found
+  end
+
   private
   def item_params
     params.permit(:item_id)
   end
 
   def item_id
-    item_params[:item_id]
+    item_params[:item_id] ||params.permit(:id)[:id]
   end
 
   def rankings

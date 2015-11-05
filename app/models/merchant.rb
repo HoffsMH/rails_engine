@@ -6,19 +6,6 @@ class Merchant < ActiveRecord::Base
   has_many :customers, through: :invoices
 
   def self.most_revenue(rankings)
-    # merchant_revenues = Invoice.successful.joins(:invoice_items).
-    # includes(:merchant).
-    # group(:merchant).
-    # sum("quantity * unit_price")
-    #
-    #
-    # sorted = merchant_revenues.sort_by do |merchant, revenue|
-    #   revenue
-    # end.reverse
-    #
-    # sorted.first(rankings).map do |merchant, revenue|
-    #   merchant
-    # end
     thing1 = Merchant.select("merchants.*, sum(invoice_items.quantity * invoice_items.unit_price) as revenue").
                 joins(invoices: :transactions).
                 joins(:invoice_items).

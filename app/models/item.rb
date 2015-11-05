@@ -23,4 +23,13 @@ class Item < ActiveRecord::Base
                 order("items_count DESC")
     output.first(rankings)
   end
+
+  def best_day
+    day = InvoiceItem.successful
+      .where("item_id" => id)
+      .group("invoices.created_at")
+      .order("sum_quantity DESC")
+      .sum("quantity").first[0]
+      {best_day: day}
+  end
 end
