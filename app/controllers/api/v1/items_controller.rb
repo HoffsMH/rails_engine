@@ -26,6 +26,7 @@ class Api::V1::ItemsController < Api::V1::BaseApiController
   def item_id
     item_params[:item_id]
   end
+  
   def rankings
     params.permit(:quantity)[:quantity].to_i
   end
